@@ -10,9 +10,9 @@ Author:[HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGq
 [View Video Tutorial](https://youtu.be/fPdPDgNGKI4) by [HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1) that shows how to set this up.
 
 ***
-# Initial Setup
+# How to use:
 ***
-1. Run Mouse2Gamepad_for_Yuzu.exe
+1. Extract the Mouse2Gamepad_for_Yuzu.zip release and Run Mouse2Gamepad_for_Yuzu.exe in it.
 
 2. The tool will run vJoy installer if not installed. Then do the manual install.
 
