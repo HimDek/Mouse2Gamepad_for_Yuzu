@@ -1,7 +1,8 @@
+***
 # Mouse2Gamepad for Yuzu v1.0.1
 # Version 1.0.1
- * Author:[HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1)
-
+ * Author: [HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1)
+***
 # Originally:
  * mouse2joystick by Helgef
  * Then modified to mouse2joystick_Custom_Cemu by CemuUser8 [Reddit](https://www.reddit.com/user/CemuUser8/)
