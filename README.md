@@ -1,4 +1,4 @@
-#Mouse2Gamepad for Yuzu v1.0.2
+# Mouse2Gamepad for Yuzu v1.0.2
 Version 1.0.2
 
 Originally: mouse2joystick by Helgef
