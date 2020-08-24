@@ -1,23 +1,24 @@
-***
-# Mouse2Gamepad for Yuzu v1.0.1
-# Version 1.0.1
- * Author: [HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1)
-***
-# Originally:
- * mouse2joystick by Helgef
- * Then modified to mouse2joystick_Custom_Cemu by CemuUser8 [Reddit](https://www.reddit.com/user/CemuUser8/)
+#Mouse2Gamepad for Yuzu v1.0.2
+Version 1.0.2
+
+Originally: mouse2joystick by Helgef
+
+Then modified to mouse2joystick_Custom_Cemu by CemuUser8 [Reddit](https://www.reddit.com/user/CemuUser8/)
 						         [GitHub](https://github.com/CemuUser8)
-***
-# Changes in Version 1.0.1
 
-1. Bug Fixes: 
-   * Mouse Wheel can now be used.
-   * Settings and Button Profiles are now saved correcty.
-
-2. Added a new Default Button Profile.
+Author:[HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1)
 
 ***
-# How to use Version 1.0.1
+# Changes in Version 1.0.2
+
+1. UI Improvements
+
+2. Modified the Default Button Profile.
+
+3. Several Bug Fixes.
+
+***
+# How to use Version 1.0.2
 
 [View Video Tutorial](https://youtu.be/fPdPDgNGKI4) by [HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1) that shows how to set this up.
 
