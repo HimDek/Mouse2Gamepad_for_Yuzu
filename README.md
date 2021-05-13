@@ -1,5 +1,5 @@
-# Mouse2Gamepad for Yuzu v1.0.2
-Version 1.0.2
+# Mouse2Gamepad for Yuzu v1.1.0
+Version 1.1.0
 
 Originally: mouse2joystick by Helgef
 
@@ -9,16 +9,18 @@ Then modified to mouse2joystick_Custom_Cemu by CemuUser8 [Reddit](https://www.re
 Author:[HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1)
 
 ***
-# Changes in Version 1.0.2
+# Changes in Version 1.1.0
 
-1. UI Improvements
+1. No more Verification required.
 
 2. Modified the Default Button Profile.
 
-3. Several Bug Fixes.
+3. Added new Button Profiles
+
+4. Several Bug Fixes.
 
 ***
-# How to use Version 1.0.2
+# How to use Version 1.1.0
 
 [View Video Tutorial](https://youtu.be/fPdPDgNGKI4) by [HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1) that shows how to set this up.
 
@@ -28,20 +30,18 @@ Author:[HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGq
 
 3. Then allow it to install ScpVBus. It also changes Yuzu controls settings to suit this tool.
 
-4. The tool will do a verrification only in the first run. This need Internet connection. So be ready.
+4. Press F3 to Open settings.
 
-5. Press F3 to Open settings.
+5. Go to Gamepad>Buttons. Click Customise Buttons and map the keys or mouse buttons as you want. Save and Close it.
 
-6. Go to Gamepad>Buttons. Click Customise Buttons and map the keys or mouse buttons as you want. Save and Close it.
+6. Go to Gamepad>Left Stick. Map the keys to the Left analog Stick of the Virtual XBox Gamepad.
 
-7. Go to Gamepad>Left Stick. Map the keys to the Left analog Stick of the Virtual XBox Gamepad.
+7. Save and Close settings.
 
-8. Save and Close settings.
+8. Run Yuzu.
 
-9. Run Yuzu.
+9. Open Game in Yuzu.
 
-10. Open Game in Yuzu.
+10. Press F1 to start. Press F1 again to stop after playing.
 
-11. Press F1 to start. Press F1 again to stop after playing.
-
-12. Press F2 to Exit from the Tool.
+11. Press F2 to Exit from the Tool.
