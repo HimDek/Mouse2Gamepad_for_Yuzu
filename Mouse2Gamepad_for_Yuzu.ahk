@@ -1,6 +1,7 @@
-﻿#NoEnv
+#NoEnv
 SendMode Input
 SetWorkingDir %A_ScriptDir%
+#SingleInstance Force
 #Include CvJI/CvJoyInterface.ahk
 #Include CvJI/CvGenInterface.ahk   ; A Modifed Interface that CemuUser8 added the Virtual XBox Gamepad and its functions to.
 #Include CvJI/MouseDelta.ahk       ; Alternate way to see mouse movement
@@ -17,16 +18,8 @@ If (ErrorLevel==0)
   {
    goto cont
   }
-MsgBox,% 1+32+262144, Close Yuzu to Update its Controller Settings?, Yuzu is Open! `n`nPress OK to Close it so that its Controller Settings can be Updated for this Tool. `n`nPress Cancel to Continue if You are sure that the settings are alright or if You want to use this Tool for other purpose.
- IfMsgBox OK
-  {
-   Process, Close, yuzu.exe
-  }
- IfMsgBox Cancel
-  {
-   pur:="Ready! "
-   goto keep
-  }
+pur:="Not updated yuzu controller settings because yuzu is already running. "
+goto keep
 }
 Else
 {
@@ -36,7 +29,7 @@ Else
 }
 
 cont:
-pur:="Yuzu Controller Settings Updated. "
+pur:="Updated yuzu controller settings. "
 keep:
 IniWrite,false,%A_AppData%\yuzu\config\qt-config.ini,Controls,player_0_connected\default
 IniWrite,false,%A_AppData%\yuzu\config\qt-config.ini,Controls,player_0_button_a\default
@@ -226,7 +219,6 @@ SetTimer, TipOff, Delete
 pi:=atan(1)*4													; Approx pi.
 
 Global verrified:=verrified
-
 ; Constants and such. Some values are commented out because they have been stored in the settings.ini file instead, but are kept because they have comments.
 moveStickHalf := False
 KeyList := []
@@ -292,7 +284,7 @@ Gui, Controller: New
 Gui, Controller: +ToolWindow -Caption +AlwaysOnTop +HWNDstick
 Gui, Controller: Color, FFFFFF
 
-ToolTip, %pur%. `nPress %controllerSwitchKey% to start. `nPress %exitKey% to Exit. `nPress %opensettingsKey% to open settings.
+ToolTip, %pur% `nPress %controllerSwitchKey% to start. `nPress %exitKey% to Exit. `nPress %opensettingsKey% to open settings.
 SetTimer, TipOff, Delete
 
 Return
@@ -1074,93 +1066,77 @@ Gamepad|Buttons, Left Stick, Right Stick
 Extra Settings
 )"
 GUI, Main:New, +AlwaysOnTop -MinimizeBox, % "Mouse2Gamepad for Yuzu Settings  -  " . version
-GUI, Add, TreeView, xm w150 h270 r16 gTreeClick Section
-GUI, Add, Button,xs w73 gMainOk, Ok
-GUI, Add, Button,x+4 w73 gMainSave Default, Save
+GUI, Add, TreeView, xm w150 h300 r16 gTreeClick Section
+GUI, Font, s11 Bold
+GUI, Add, Text, xp yp+310, Setting will be Saved Automatically.
+GUI, Font,
+
+GUI, Add, GroupBox, xm+160 ym+232 w540 h70, Help and Support:
+GUI, Add, Link, xp+10 yp+20, <a href="https://youtu.be/fPdPDgNGKI4">View Video Tutorial</a> by the Maker of This Tool, HiDe Techno Tips
+GUI, Add, Link, xp yp+20, <a href="https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1">Please Support me by Subscribing to my Youtube Channel.</a>
+
 GUI, Add, Tab2, +Buttons -Theme -Wrap vTabControl ys w320 h0 Section, General|General>Setup|General>Hotkeys|Gamepad|Gamepad>Buttons|Gamepad>Left Stick|Gamepad>Right Stick|Extra Settings
 GUIControlGet, S, Pos, TabControl ; Store the coords of this section for future use.
 ;------------------------------------------------------------------------------------------------------------------------------------------
 GUI, Tab, General
 
-	GUI, Add, GroupBox, x%SX% y%SY% w360 h50, Virtual XBox device to use as Gamepad:
+	GUI, Add, GroupBox, xm+160 y%SY% w540 h50, Virtual XBox device to use as Gamepad:
 	GUI, Add, DropDownList, xp+10 yp+20 vopvXBoxDevice w90, % StrReplace("0|1|2|3|4|", vXBoxDevice, vXBoxDevice . "|")
 	
-	GUI, Add, GroupBox, section x%SX% yp+45 w360 h90,Executable Name:
+	GUI, Add, GroupBox, section xm+160 yp+45 w540 h90,Executable Name:
 	GUI, Add, Text, xp+10 yp+20, The executable name for your Game:
 	GUI, Add, Edit, x+m yp vopgameExe w90, %gameExe% 
 	GUI, Add, Text, xs+10 yp+25, Use Controller only when Game executable Entered above is running?
 	GUI, Add, Radio, % "xp+10 yp+20 Group vopautoActivateGame Checked" !autoActivateGame, No
 	GUI, Add, Radio, % "x+m Checked" autoActivateGame, Yes
-
-	GUI, Add, GroupBox, x%SX% yp+35 w360 h70, Help and Support:
-        GUI, Add, Link, xp+10 yp+20, <a href="https://youtu.be/fPdPDgNGKI4">View Video Tutorial</a> by the Maker of This Tool, HiDe Techno Tips
-        GUI, Add, Link, xp yp+20, <a href="https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1">Please Support me by Subscribing to my Youtube Channel.</a>
 ;------------------------------------------------------------------------------------------------------------------------------------------
 GUI, Tab, General>Setup
-	GUI, Add, GroupBox, x%SX% y%SY% w360 h50 Section, Sensitivity
+	GUI, Add, GroupBox, xm+160 y%SY% w540 h50 Section, Sensitivity
 	GUI, Add, Edit, xs+10 yp+20 w50 vopr gNumberCheck, %r%
 	GUI, Add, Text, x+4 yp+3, Lower values correspond to higher sensitivity 
 
-	GUI, Add, GroupBox, xs yp+30 w360 h50, Non-Linear Sensitivity
+	GUI, Add, GroupBox, xs yp+30 w540 h50, Non-Linear Sensitivity
 	GUI, Add, Edit, xs+10 yp+20 w50 vopnnp gNumberCheck, %nnp%
 	GUI, Add, Text, x+4 yp+3, 1 is Linear ( < 1 makes center more sensitive )
 	
-	GUI, Add, GroupBox, xs yp+30 w360 h50, Deadzone
+	GUI, Add, GroupBox, xs yp+30 w540 h50, Deadzone
 	GUI, Add, Edit, xs+10 yp+20 w50 vopk gNumberCheck, %k%
 	GUI, Add, Text, x+4 yp+3, Range (0 - 1)
 	
-	GUI, Add, GroupBox, xs yp+30 w360 h50, Mouse Check Frequency
+	GUI, Add, GroupBox, xs yp+30 w540 h50, Mouse Check Frequency
 	GUI, Add, Edit, xs+10 yp+20 w50 vopfreq Number, %freq%
 	GUI, Add, Text, x+4 yp+3, I recommend 50-100 ( Default:75 )
-
-	GUI, Add, GroupBox, x%SX% yp+35 w360 h70, Help and Support:
-        GUI, Add, Link, xp+10 yp+20, <a href="https://youtu.be/fPdPDgNGKI4">View Video Tutorial</a> by the Maker of This Tool, HiDe Techno Tips
-        GUI, Add, Link, xp yp+20, <a href="https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1">Please Support me by Subscribing to my Youtube Channel.</a>
 ;------------------------------------------------------------------------------------------------------------------------------------------
 GUI, Tab, General>Hotkeys
-	GUI, Add, GroupBox, x%SX% y%SY% w360 h50 Section, Toggle Controller On/Off
+	GUI, Add, GroupBox, xm+160 y%SY% w540 h50 Section, Toggle Controller On/Off
 	GUI, Add, Hotkey, xs+10 yp+20 w50 Limit190 vopcontrollerSwitchKey, % StrReplace(controllerSwitchKey, "#")
 	
-	GUI, Add, GroupBox, x%SX% yp+40 w360 h50 Section, Quit Application
+	GUI, Add, GroupBox, xm+160 yp+40 w540 h50 Section, Quit Application
 	GUI, Add, Hotkey, xs+10 yp+20 w50 Limit190 vopexitKey, % StrReplace(exitKey, "#")
 
-	GUI, Add, GroupBox, x%SX% yp+40 w360 h50 Section, Open Settings
+	GUI, Add, GroupBox, xm+160 yp+40 w540 h50 Section, Open Settings
 	GUI, Add, Hotkey, xs+10 yp+20 w50 Limit190 vopopensettingsKey, % StrReplace(opensettingsKey, "#")
-
-	GUI, Add, GroupBox, x%SX% yp+35 w360 h70, Help and Support:
-        GUI, Add, Link, xp+10 yp+20, <a href="https://youtu.be/fPdPDgNGKI4">View Video Tutorial</a> by the Maker of This Tool, HiDe Techno Tips
-        GUI, Add, Link, xp yp+20, <a href="https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1">Please Support me by Subscribing to my Youtube Channel.</a>
 ;------------------------------------------------------------------------------------------------------------------------------------------
 GUI, Tab, Gamepad
-	GUI, Add, Text, x%SX% y%SY% Section, Bind Your Mouse and Keyboard to a emulated Virtual XBox Gamepad that `nwill be used in the Games.
-
-	GUI, Add, GroupBox, x%SX% yp+35 w360 h70, Help and Support:
-        GUI, Add, Link, xp+10 yp+20, <a href="https://youtu.be/fPdPDgNGKI4">View Video Tutorial</a> by the Maker of This Tool, HiDe Techno Tips
-        GUI, Add, Link, xp yp+20, <a href="https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1">Please Support me by Subscribing to my Youtube Channel.</a>
+	GUI, Add, Text, xm+160 y%SY% Section, Bind Your Mouse and Keyboard to a emulated Virtual XBox Gamepad that `nwill be used in the Games.
 ;------------------------------------------------------------------------------------------------------------------------------------------
 GUI, Tab, Gamepad>Buttons
-	GUI, Add, Text, x%SX% y%SY% Section, Bind Your Mouse and Keyboard Buttons to The Virtual XBox Gamepad Buttons:
+	GUI, Add, Text, xm+160 y%SY% Section, Bind Your Mouse and Keyboard Buttons to The Virtual XBox Gamepad Buttons:
 
-	GUI, Add, GroupBox, xs yp+20 w440 h140 Section, Virtual xBox Gamepad Button Binder:
-	GUI, Add, Edit, xs+10 yp+20 w420 h20 vopjoystickButtonKeyList, %joystickButtonKeyList%
-	GUI, Add, Text, xs+10 yp+25, The Keys and Mouse Buttons separated by "," above are bound to`nButtons of Virtual XBox Gamepad.
+	GUI, Add, GroupBox, xs yp+20 w540 h140 Section, Virtual xBox Gamepad Button Binder:
+	GUI, Add, Edit, xs+10 yp+20 w520 h20 vopjoystickButtonKeyList, %joystickButtonKeyList%
+	GUI, Add, Text, xs+10 yp+25, The Keys and Mouse Buttons separated by "," above are bound to Buttons of Virtual XBox Gamepad.
         GUI, Add, Text, xs+10 yp+40, Press the Button Below to Customise Bound Buttons:
-	GUI, Add, Button, xs+10 yp+20 w420 gKeyListHelper, Customise Buttons.
+	GUI, Add, Button, xs+10 yp+20 w520 gKeyListHelper, Customise Buttons.
 	
-	GUI, Add, GroupBox, x%SX% yp+40 w440 h50, Bound Buttons Profile Manager:
+	GUI, Add, GroupBox, xm+160 yp+40 w540 h50, Bound Buttons Profile Manager:
 	IniRead,allSavedLists,SavedKeyLists.ini
 	allSavedLists := StrReplace(allSavedLists, "`n", "|")
-	GUI, Add, ComboBox, xs+10 yp+20 w210 vopSaveListName, %allSavedLists%
-	GUI, Add, Button, x+m w60 gLoadSavedList, Load
-	GUI, Add, Button, x+m w60 gSaveSavedList, Save
-	GUI, Add, Button, x+m w60 gDeleteSavedList, Delete
-
-	GUI, Add, GroupBox, x%SX% yp+35 w440 h70, Help and Support:
-        GUI, Add, Link, xp+10 yp+20, <a href="https://youtu.be/fPdPDgNGKI4">View Video Tutorial</a> by the Maker of This Tool, HiDe Techno Tips
-        GUI, Add, Link, xp yp+20, <a href="https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1">Please Support me by Subscribing to my Youtube Channel.</a>
+	GUI, Add, ComboBox, xs+10 yp+20 w400 vopSaveListName gLoadSavedList, %allSavedLists%
+	GUI, Add, Button, x+m yp-1 w110 h23 gDeleteSavedList, Delete
 ;------------------------------------------------------------------------------------------------------------------------------------------
 GUI, Tab, Gamepad>Left Stick
-	GUI, Add, GroupBox, x%SX% y%SY% w380 h100 Section, Keyboard Keys Bound to Left Analog Stick of Virtual XBox Gamepad:
+	GUI, Add, GroupBox, xm+160 y%SY% w540 h100 Section, Keyboard Keys Bound to Left Analog Stick of Virtual XBox Gamepad:
 	GUI, Add, Text, xs+10 yp+25 Right w80, Up:
 	GUI, Add, Hotkey, x+2 yp-3 w50 Limit190 vopupKey, %upKey%
 	GUI, Add, Text, xs+10 yp+25, Left:
@@ -1170,7 +1146,7 @@ GUI, Tab, Gamepad>Left Stick
 	GUI, Add, Text, xs+10 yp+25 Right w80, Down:
 	GUI, Add, Hotkey, x+2 yp-3 w50 Limit190 vopdownKey, %downKey%
 
-	GUI, Add, GroupBox, xs w380 h120, Left Stick Walking Speed Settings:
+	GUI, Add, GroupBox, xs w540 h120, Left Stick Walking Speed Settings:
 	GUI, Add, Text, xs+10 yp+25 Right w80, Walking Speed:
 	GUI, Add, Slider, x+2 yp-8 w180 Range0-100 TickInterval10 Thick12 vopwalkSpeed gWalkSpeedChange AltSubmit, % walkSpeed*100
 	GUI, Font, Bold 
@@ -1185,36 +1161,28 @@ GUI, Tab, Gamepad>Left Stick
 	GUI, Add, Hotkey, x+2 yp-3 w50 Limit190 vopincreaseWalkKey, %increaseWalkKey%
 	GUI, Add, Text, x+3 yp+3, or  Decrease :
 	GUI, Add, Hotkey, x+2 yp-3 w50 Limit190 vopdecreaseWalkKey, %decreaseWalkKey%
-
-	GUI, Add, GroupBox, x%SX% yp+35 w380 h70, Help and Support:
-        GUI, Add, Link, xp+10 yp+20, <a href="https://youtu.be/fPdPDgNGKI4">View Video Tutorial</a> by the Maker of This Tool, HiDe Techno Tips
-        GUI, Add, Link, xp yp+20, <a href="https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1">Please Support me by Subscribing to my Youtube Channel.</a>
 ;------------------------------------------------------------------------------------------------------------------------------------------
 GUI, Tab, Gamepad>Right Stick
-	GUI, Add, Text, x%SX% y%SY% Section, Mouse Movement Binds to the Right Analog Stick of Virtual XBox Gamepad.
+	GUI, Add, Text, xm+160 y%SY% w540 Section, Mouse Movement Binds to the Right Analog Stick of Virtual XBox Gamepad.
 
-	GUI, Add, GroupBox, x%SX% yp+20 w170 h40 Section,Invert X-Axis
+	GUI, Add, GroupBox, xm+160 yp+20 w255 h40 Section,Invert X-Axis
 	GUI, Add, Radio, % "xp+10 yp+20 Group vopinvertedX Checked" . !invertedX, No
 	GUI, Add, Radio, % "x+m Checked" . invertedX, Yes
 	
-	GUI, Add, GroupBox, xs+190 ys w170 h40 Section,Invert Y-Axis
+	GUI, Add, GroupBox, xs+275 ys w255 h40 Section,Invert Y-Axis
 	GUI, Add, Radio, % "xp+10 yp+20 Group vopinvertedY Checked" . !invertedY, No
 	GUI, Add, Radio, % "x+m Checked" . invertedY, Yes
-
-	GUI, Add, GroupBox, x%SX% yp+35 w360 h70, Help and Support:
-        GUI, Add, Link, xp+10 yp+20, <a href="https://youtu.be/fPdPDgNGKI4">View Video Tutorial</a> by the Maker of This Tool, HiDe Techno Tips
-        GUI, Add, Link, xp yp+20, <a href="https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1">Please Support me by Subscribing to my Youtube Channel.</a>
 ;------------------------------------------------------------------------------------------------------------------------------------------
 GUI, Tab, Extra Settings
 	
-	GUI, Add, GroupBox, x%SX% y%SY% w360 h50 Section,Use ZL Lock Toggle Key
+	GUI, Add, GroupBox, xm+160 y%SY% w540 h50 Section,Use ZL Lock Toggle Key
 	GUI, Add, Radio, % "xp+10 yp+20 Group voplockZL Checked" . !lockZL, No
 	GUI, Add, Radio, % "x+m Checked" . lockZL, Yes
 	GUI, Add, Text, x+10 Right w80, ZL Lock Key:
 	GUI, Add, Hotkey, x+2 yp-3 w50 Limit190 voplockZLToggleKey, %lockZLToggleKey%
 
 	GUI, Font, cRed Bold
-	GUI, Add, GroupBox, xs yp+40 w360 h65,EXPERIMENTAL Alternate Mouse Detection
+	GUI, Add, GroupBox, xs yp+40 w540 h65,EXPERIMENTAL Alternate Mouse Detection
 	GUI, Font,
 	GUI, Add, CheckBox, % "xp+10 yp+20 vopuseAltMouseMethod Checked" . useAltMouseMethod, Use Mouse Delta? (Experimental)
 	GUI, Add, Text, xs+10 yp+20 w40 Right, X-Sen:
@@ -1222,14 +1190,9 @@ GUI, Tab, Extra Settings
 	GUI, Add, Text, x+10 yp+3 w30 Right, Y-Sen:
 	GUI, Add, Edit, x+2 yp-3 vopalt_ySen w40, %alt_ySen%
 	GUI, Add, Text, x+3 yp+3 w130 Left, Try 260-400? No Idea...
-
-	GUI, Add, GroupBox, x%SX% yp+35 w360 h70, Help and Support:
-        GUI, Add, Link, xp+10 yp+20, <a href="https://youtu.be/fPdPDgNGKI4">View Video Tutorial</a> by the Maker of This Tool, HiDe Techno Tips
-        GUI, Add, Link, xp yp+20, <a href="https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1">Please Support me by Subscribing to my Youtube Channel.</a>
-
 GUI, Add, StatusBar
 BuildTree("Main", tree)
-Gui, Main: Show
+Gui, Main: Show, w720
 Return	
 
 TreeClick:
@@ -1254,118 +1217,19 @@ WalkSpeedChange:
 Return
 
 MainGUIClose:
-        ToolTip, Stopped. `nPress %controllerSwitchKey% to start. `nPress %exitKey% to Exit. `nPress %opensettingsKey% to open settings.
-	SetTimer, TipOff, Delete
-
-IF (controllerSwitchKey)
-	Hotkey,%controllerSwitchKey%,controllerSwitch, on
-IF (exitKey)
-	Hotkey,%exitKey%,exitFun, on
-IF (opensettingsKey)
-        Hotkey,%opensettingskey%,openSettings, on
-
-	GUI, Main:Destroy
-Return
-
-mainOk:
-	Gosub mainSave
+	GoSub, SaveSavedList
+	Gosub, SubmitAll
 	Gui, Main:Hide
-
-IF (controllerSwitchKey)
-	Hotkey,%controllerSwitchKey%,controllerSwitch, on
-IF (exitKey)
-	Hotkey,%exitKey%,exitFun, on
-IF (opensettingsKey)
-        Hotkey,%opensettingskey%,openSettings, on
-
-        ToolTip, Stopped. `nPress %controllerSwitchKey% to start. `nPress %exitKey% to Exit. `nPress %opensettingsKey% to open settings.
-	SetTimer, TipOff, Delete
+	GUI, Main:Destroy
+	Reload
+	Gosub last
 return
 
-mainSave:
-	Gui, Main:Submit, NoHide
-	Gosub, SubmitAll
-	If (!verrified)
-	  return
-
-	; Get old hotkeys.
-	; Disable old hotkeys
-	IF (controllerSwitchKey)
-		Hotkey,%controllerSwitchKey%,controllerSwitch, off
-	IF (exitKey)
-		Hotkey,%exitKey%,exitFun, off
-        IF (opensettingskey)
-		Hotkey,%opensettingsKey%,openSettings, off
-
-	; Joystick buttons
-	Hotkey, If, (!toggle && mouse2joystick)
-	IF (walkToggleKey)
-		HotKey,%walkToggleKey%,toggleHalf, Off
-	IF (decreaseWalkKey)
-		HotKey,%decreaseWalkKey%,decreaseWalk, Off
-	IF (increaseWalkKey)
-		HotKey,%increaseWalkKey%,increaseWalk, Off
-	IF (lockZLToggleKey AND lockZL)
-		HotKey,%lockZLToggleKey%,toggleAimLock, Off
-	Hotkey,%upKey%, overwriteUp, off
-	Hotkey,%upKey% Up, overwriteUpup, off
-	Hotkey,%leftKey%, overwriteLeft, off
-	Hotkey,%leftKey% Up, overwriteLeftup, off
-	Hotkey,%downKey%, overwriteDown, off
-	Hotkey,%downKey% Up, overwriteDownup, off
-	Hotkey,%rightKey%, overwriteRight, off
-	Hotkey,%rightKey% Up, overwriteRightup, off
-
-	Loop, Parse, joystickButtonKeyList, `,
-	{
-		useButton := A_Index
-		Loop, Parse, A_LoopField, |
-		{		
-			keyName:=A_LoopField
-			IF (!keyName)
-				Continue
-			KeyList[keyName] := useButton
-			Hotkey,%keyName%, pressJoyButton, off
-			Hotkey,%keyName% Up, releaseJoyButton, off
-		}
-	}
-	Hotkey, If
-
-	; Read settings.
-	
-	IniRead,allSections,settings.ini
-	
-	Loop,Parse,allSections,`n
-	{
-		IniRead,pairs,settings.ini,%A_LoopField%
-		Loop,Parse,pairs,`n
-		{
-			StringSplit,keyValue,A_LoopField,=
-			%keyValue1%:=keyValue2
-		}
-	}
-
-	IF (mouse2joystick) {
-		GoSub, initCvJoyInterface
-		GoSub, mouse2joystickHotkeys
-	}
-	pmX:=invertedX ? -1:1											; Sign for inverting axis
-	pmY:=invertedY ? -1:1
-
-	; Enable new hotkeys
-	IF (controllerSwitchKey)
-		Hotkey,%controllerSwitchKey%,controllerSwitch, on
-	IF (exitKey)
-		Hotkey,%exitKey%,exitFun, on
-        IF (opensettingsKey)
-                Hotkey,%opensettingsKey%,openSettings, on
-
-Return
-
 SubmitAll:
+	Gui, Main:Submit, NoHide
 	GUI, Main: Hide
 	
-        ; Write General
+    ; Write General
 	IniWrite, % opvXBoxDevice, settings.ini, General, vXBoxDevice
 	IniWrite, % opgameExe, settings.ini, General, gameExe
 	IniWrite, % opautoActivateGame - 1, settings.ini, General, autoActivateGame
@@ -1379,7 +1243,7 @@ SubmitAll:
 	; Write General>Hotkeys
 	IniWrite, % opcontrollerSwitchKeyWin ? "#" . opcontrollerSwitchKey : opcontrollerSwitchKey, settings.ini, General>Hotkeys, controllerSwitchKey
 	IniWrite, % opexitKeyWin ? "#" . opexitKey : opexitKey, settings.ini, General>Hotkeys, exitKey
-        IniWrite, % opopensettingsKeyWin ? "#" . opopensettingsKey : opopensettingsKey, settings.ini, General>Hotkeys, opensettingsKey
+    IniWrite, % opopensettingsKeyWin ? "#" . opopensettingsKey : opopensettingsKey, settings.ini, General>Hotkeys, opensettingsKey
 	
 	; Write Gamepad>Buttons
 	IniWrite, % opjoystickButtonKeyList, settings.ini, Gamepad>Buttons, joystickButtonKeyList
@@ -1394,7 +1258,7 @@ SubmitAll:
 	IniWrite, % opdecreaseWalkKey, settings.ini, Gamepad>Left Stick, decreaseWalkKey
 	IniWrite, % Round(opwalkSpeed/100, 2), settings.ini, Gamepad>Left Stick, walkSpeed
 
-        ; Write Gamepad>Right Stick
+    ; Write Gamepad>Right Stick
 	IniWrite, % opinvertedX - 1, settings.ini, Gamepad>Right Stick, invertedX
 	IniWrite, % opinvertedY - 1, settings.ini, Gamepad>Right Stick, invertedY
 
@@ -1404,8 +1268,6 @@ SubmitAll:
 	IniWrite, % opuseAltMouseMethod, settings.ini, Extra Settings, useAltMouseMethod
 	IniWrite, % opalt_xSen, settings.ini, Extra Settings, alt_xSen
 	IniWrite, % opalt_ySen, settings.ini, Extra Settings, alt_ySen
-
-	GUI, Main:Show
 Return
 
 selectionPath(ID) {
