@@ -1,5 +1,4 @@
-# Mouse2Gamepad for Yuzu v1.2.0
-## Version 1.2.0
+# Mouse2Gamepad for Yuzu
 
 Originally: mouse2joystick by Helgef
 
@@ -8,11 +7,11 @@ Then modified to mouse2joystick_Custom_Cemu by CemuUser8 [Reddit](https://www.re
 
 Author:[HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1)
 
-# How to use Version 1.2.0
+# How to use:
 
 [View Video Tutorial](https://youtu.be/fPdPDgNGKI4) by [HiDe Techno Tips](https://www.youtube.com/channel/UCy3fBVKd0RMY05CgiiuGqSA?sub_confirmation=1) that shows how to set this up.
 
-1. Run Mouse2Gamepad_for_Yuzu.exe
+1. [Download Mouse2Gamepad_for_Yuzu.zip](https://github.com/HiDe-Techno-Tips/Mouse2Gamepad_for_Yuzu/releases/latest/download/Mouse2Gamepad_for_Yuzu.zip) and extract it. Then, run the extracted `Mouse2Gamepad_for_Yuzu.exe` file.
 
 2. The tool will run vJoy installer if not installed. Then do the manual install.
 
